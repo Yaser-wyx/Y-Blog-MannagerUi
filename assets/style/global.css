@@ -1,0 +1,30 @@
+.my-inline-block {
+    vertical-align: top;
+    display: inline-block;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.my-a {
+    font-size: 11px;
+    color: #C3C7CA;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.my-a:hover {
+    color: #566573;
+}
+.my-card {
+    width: 450px;
+    padding: 13px 10px 10px;
+    background-color: white;
+    box-shadow: #AAAAAA 0 0 20px 2px;
+    border-radius: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    position: relative;
+}
