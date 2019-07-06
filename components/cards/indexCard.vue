@@ -91,7 +91,6 @@
         } catch (e) {
           this.$message.error(e.message)
         }
-        //todo 完善用户选择器
       },
       handleSelectUser(selectedUser) {
         console.log(selectedUser)

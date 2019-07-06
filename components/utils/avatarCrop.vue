@@ -260,7 +260,6 @@
         })
       },
       handleSuccess(res) {
-        //todo 图片地址需要修改
         this.nowImage = `${this.$store.state.url}/public/${res.url}`//设置图片
         if (!this.Success) {
           //如果没有传入success方法
