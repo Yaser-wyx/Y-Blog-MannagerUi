@@ -14,17 +14,18 @@
   import editServer from "./editServer";
   import loginCard from "./loginCard";
   import forgetCard from "./forgetCard";
-  import {init, loadApis, loadingUser, testConnection, writeServerConfig} from "./index";
+  import {addItemToConfig, init, loadApis, testConnection, writeServerConfig} from "./index";
   import {Cards} from "./index";
   import selectUser from "./selectUser";
   import {delayExec} from "../../utils";
+  import {FAILURE} from "../../utils/Constant";
 
+  let _ = require('lodash')
   export default {
     name: "welcomeCard",
     components: {
       createUser, editServer, loginCard, forgetCard, selectUser
     },
-
     mounted() {
       this.$store.commit('setTitle', "欢迎使用Y-Blog")
       init(this).then(config => {
@@ -37,6 +38,14 @@
             this.step = this.Cards.login
             delayExec(() => {
               this.$refs.login.user = config.user
+              if (config.user.password) {
+                this.$refs.login.remember = true
+              }
+              if (config.auto && !this.$store.state.isLogout) {
+                //如果是自动登录，则直接进行登录操作
+                // 同时需要判断当前是否是退出状态，如果是退出状态则取消自动登录选项
+                this.login(config.user, true, true)
+              }
             })
           } else {
             if (config.userCount > 0) {
@@ -62,10 +71,26 @@
       }
     },
     methods: {
-      login(user) {
-        console.log("login", user)
-        //todo 添加登录功能
-        //TODO 将token注入api接口中
+      async login(user, remember, auto) {
+        try {
+          let loginResult = await this.apis.serverApi.userLogin(user.userId, user.password)
+          if (loginResult.code === FAILURE) {
+            this.$message.error(loginResult.msg)
+          } else {
+            this.$message.success("登录成功！")
+            console.log(loginResult.data)
+            this.$store.commit('api/setToken', loginResult.data.token)//设置token
+            this.$store.commit("login", loginResult.data.user)//设置登录状态信息
+            if (!remember) {//如果不需要记住密码
+              _.unset(user, 'password')//将密码信息从用户信息中删除
+            }
+            addItemToConfig('user', user)//将新的user信息写入配置项中
+            addItemToConfig('auto', auto)//设置是否需要自动登录
+            this.$router.push('/mainWindow')//跳转页面
+          }
+        } catch (e) {
+          this.$message.error(e.message)
+        }
         //todo 完善用户选择器
       },
       handleSelectUser(selectedUser) {

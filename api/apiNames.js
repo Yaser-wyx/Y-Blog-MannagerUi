@@ -1,3 +1,7 @@
 export const ApiNames = {
-    SERVER_API: "serverApi"
+  SERVER_API: "serverApi"
 }
+
+export const ApiNameList = [
+  "serverApi"
+]

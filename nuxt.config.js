@@ -5,8 +5,8 @@ export default {
   /*
   ** Headers of the page
   */
-  server:{
-    port:3001
+  server: {
+    port: 3001
   },
   head: {
     titleTemplate: '%s - ' + process.env.npm_package_name,
@@ -25,9 +25,12 @@ export default {
       },
       {
         rel: 'stylesheet',
-        href: 'https://at.alicdn.com/t/font_1211765_qyjna4lx0sl.css'
+        href: 'https://at.alicdn.com/t/font_1211765_n07odmyzhr.css'
       }
     ]
+  },
+  router: {
+    middleware: ['Auth']
   },
   /*
   ** Customize the progress-bar color
@@ -48,6 +51,7 @@ export default {
   plugins: [
     {src: '~/plugins/element.js', ssr: false},//UI框架
     {src: '~/plugins/vueCroppa.js', ssr: false},//图片处理插件
+    {src: '~/plugins/velocity', ssr: false},
   ],
   /*
   ** Nuxt.js modules

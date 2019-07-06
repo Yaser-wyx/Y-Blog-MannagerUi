@@ -1,7 +1,7 @@
 <template>
   <div class="index">
     <div class="card">
-      <welcomeCard></welcomeCard>
+      <indexCard></indexCard>
     </div>
     <div class="back"></div>
     <div class="mask"></div>
@@ -9,12 +9,12 @@
 </template>
 <script>
 
-  import welcomeCard from "../components/cards/indexCard";
+  import indexCard from "../components/cards/indexCard";
 
   export default {
     name: "index",
     methods: {},
-    components: {welcomeCard},
+    components: {indexCard},
 
   }
 </script>

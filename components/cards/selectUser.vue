@@ -1,20 +1,34 @@
 <template>
-  <div class="my-card" style="height:280px;margin-top:25vh">
+  <div class="my-card" style="height:280px;margin-top:20vh">
     <div class="card-title web-font-pingfang">
       选择已有用户
     </div>
-    <div class="mt-4">
-      <v-avatar
-        :size="100"
-        color="grey lighten-4"
-        class="avatar"
-        slot="activator"
-        @click="selectUser">
-        <img :src="nowUser.avatar" v-if="users.length>0">
-        <div class="web-font-pingfang-thin avatar-title" style="font-size: 12px" v-else>请创建用户</div>
-      </v-avatar>
-      <div class="avatar-title web-font-pingfang-thin" @click="selectUser" v-if="users.length>0">{{nowUser.userName}}
+    <div class="mt-3" style="position: relative;">
+      <v-btn icon flat color="#C3C7CA" class="my-icon-left" large @click="left">
+        <v-icon color="#C3C7CA" size="45">iconfont blog-arrow-left</v-icon>
+      </v-btn>
+      <div class="users">
+        <slider ref="slider" :options="options" @slide="slide">
+          <template slot-scope="coverflow">
+            <slideritem v-for="(item,index) in users" :index="index" :key="index">
+              <div>
+                <v-avatar
+                  :size="90"
+                  color="grey lighten-4"
+                  class="avatar"
+                  :class="{'avatar-active':activeIndex===index}"
+                  @click="selectUser(index)">
+                  <img :src="item.avatar">
+                </v-avatar>
+                <div class="avatar-title web-font-pingfang-thin">{{item.userName}}</div>
+              </div>
+            </slideritem>
+          </template>
+        </slider>
       </div>
+      <v-btn icon flat color="#C3C7CA" class="my-icon-right" large @click="right">
+        <v-icon color="#C3C7CA" size="45">iconfont blog-arrow-right</v-icon>
+      </v-btn>
     </div>
     <div class="pre web-font-pingfang-thin my-a" @click="go(Cards.editServer)">配置服务器</div>
     <div class="after web-font-pingfang-thin my-a" @click="go(Cards.createUser)">创建新用户</div>
@@ -23,15 +37,15 @@
 
 <script>
   import {Cards} from "./index";
+  import {slider, slideritem} from 'vue-concise-slider'// import slider components
 
   export default {
     name: "selectUser",
+    components: {
+      slider,
+      slideritem
+    },
     computed: {
-      nowUser: function () {
-        if (this.users.length > 0) {
-          return this.users[this.nowIndex]
-        }
-      },
       apis: function () {
         return this.$store.state.api
       },
@@ -44,15 +58,36 @@
     },
     data: function () {
       return {
-        nowIndex: 0,
+        options: {
+          effect: 'coverflow',
+          currentPage: 0,
+          thresholdDistance: 100,
+          thresholdTime: 300,
+          pagination: false,
+          deviation: 100,
+          widthScalingRatio: 0.6,
+          heightScalingRatio: 0.6,
+          slidesToScroll: 1,
+          loop: true
+        },
         Cards: Cards,
-        users: []
+        users: [],
+        activeIndex: 0
       }
     },
     methods: {
-      selectUser() {
+      slide(data) {
+        this.activeIndex = data.currentPage
+      },
+      left() {
+        this.$refs.slider.$emit("slidePre")
+      },
+      right() {
+        this.$refs.slider.$emit("slideNext")
+      },
+      selectUser(index) {
         if (this.users.length > 0) {
-          this.$emit('selectUser', this.nowUser)
+          this.$emit('selectUser', this.users[index])
         } else {
           this.$message.warning("当前没有用户可供选择，请创建新的用户！")
         }
@@ -79,36 +114,26 @@
     right: 20px;
   }
 
+  .avatar-active {
+    transition: 0.618s;
+    cursor: pointer;
+    box-shadow: rgba(170, 170, 170, 0.9) 0 0 15px 2px!important;
+  }
+
   .avatar {
     transition: 0.618s;
     cursor: pointer;
-  }
-
-  .avatar:hover {
-    box-shadow: rgba(170, 170, 170, 0.6) 0 0 20px 2px;
-  }
-
-  .avatar:hover ~ .avatar-title {
-    color: rgba(86, 101, 115, 0.9);
-  }
-
-  .avatar-title:hover ~ .avatar {
-    box-shadow: rgba(170, 170, 170, 0.6) 0 0 20px 2px;
-  }
-
-  .avatar-title:hover {
-    color: rgba(86, 101, 115, 0.9);
+    box-shadow: rgba(170, 170, 170, 0.5) 0 0 10px 1px;
   }
 
   .avatar-title {
     font-size: 18px;
-    color: #B2BABB;
+    color: rgba(86, 101, 115, 0.9);
     margin-top: 5px;
     max-width: 200px;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    height: 20px;
     transition: 0.618s;
     cursor: pointer;
   }
@@ -119,5 +144,29 @@
     font-size: 30px;
     color: rgba(46, 64, 83, .9);
     font-weight: 600;
+  }
+
+  .my-icon-left {
+    position: absolute;
+    left: 0;
+    top: 40px;
+  }
+
+  .users {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 150px;
+    z-index: 999;
+  }
+
+  .slideritem {
+    width: 30%;
+  }
+
+  .my-icon-right {
+    position: absolute;
+    right: 0;
+    top: 40px;
   }
 </style>

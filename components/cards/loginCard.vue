@@ -24,7 +24,7 @@
             </template>
           </v-text-field>
           <v-text-field :rules="passwordRules" required single-line hide-details :type="showPassword?'text':'password'"
-                        v-model="user.password">
+                        v-model="user.password" @keydown.enter="handleLogin">
             <template v-slot:label>
               <span class="web-font-heiti2 field-text" :style="passwordStyle">请输入您的密码</span>
             </template>
@@ -91,8 +91,21 @@
 <script>
   import {Cards} from "./index";
 
+  let _ = require('lodash')
   export default {
     name: "loginCard",
+    watch: {
+      auto: function () {
+        if (this.auto) {
+          this.remember = true
+        }
+      },
+      remember: function () {
+        if (!this.remember) {
+          this.auto = false
+        }
+      }
+    },
     data: function () {
       return {
         remember: false,
@@ -118,7 +131,7 @@
     methods: {
       handleLogin() {
         if (this.$refs.login.validate() && this.valid) {
-          this.$emit('handleLogin', this.user)
+          this.$emit('handleLogin', this.user, this.remember, this.auto)
         }
       },
       go(step) {

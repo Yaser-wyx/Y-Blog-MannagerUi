@@ -13,23 +13,17 @@ export const Cards = {
   forget: 4
 }
 
-export function login() {
-
-}
-
-export function createNewUser() {
-
-}
-
-export function forgetPassword() {
-
-}
-
 export function writeServerConfig(config) {
   //将服务器配置写入localStorage
   window.localStorage.setItem("server", JSON.stringify(config))
 }
 
+export function addItemToConfig(path, itemValue) {
+  //根据指定的路径添加指定项到配置文件中
+  let config = readServerConfig()
+  _.set(config, path, itemValue)
+  writeServerConfig(config)
+}
 
 export function readServerConfig() {
   return JSON.parse(window.localStorage.getItem("server"))//读取配置
@@ -44,7 +38,6 @@ export async function testConnection() {
   }
   return {status: 200, userCount: count.userCount}
 }
-
 
 
 /**
@@ -73,7 +66,7 @@ export async function init($vm) {
         return config
       } else {
         //连接失败
-        _this.$message.error("服务器连接失败，请检查网络或服务器地址")
+        _this.$message.error(connectedResult.message)
         return false
       }
 
