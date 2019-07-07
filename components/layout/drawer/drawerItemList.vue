@@ -17,7 +17,7 @@
     </div>
     <div class="sub-item-list" v-if="drawerItem.list">
       <div class="sub-item web-font-pingfang-thin" :class="{'sub-item-active':activeIndex===index}"
-           v-for="(item,index) in drawerItem.list" :key="index" @click="activeIndex=index">{{item.title}}
+           v-for="(item,index) in drawerItem.list" :key="index" @click="changeActiveItem(index)">{{item.title}}
       </div>
     </div>
   </div>
@@ -27,17 +27,28 @@
   export default {
     name: "drawerItem",
     props: {
-      isActive:{
-        type:Boolean
-      },
       drawerItem: {
         type: Object
       },
-      index:{
-        type:Number
+      index: {
+        type: Number
       }
     },
+    created() {
+      if (this.drawerItem.list) {
+        this.drawerItem.list.forEach(item => {
+          this.pathList.push(`/mainWindow${item.href}`)
+        })
+      } else {
+        this.pathList.push(`/mainWindow${this.drawerItem.href}`)
+      }
+      this.isActive = this.pathList.includes(this.routerPath);
+
+    },
     computed: {
+      routerPath: function () {//根据路由信息来确定导航栏是否被激活
+        return this.$route.path
+      },
       titleStyle: function () {
         if (this.isActive) {
           return "color: rgba(255, 255, 255, 1);"
@@ -53,14 +64,36 @@
         }
       }
     },
-    data: function () {
-      return {
-        activeIndex: 0
+    watch: {
+      routerPath: function (newVal) {
+        this.isActive = this.pathList.includes(newVal);
+        this.activeIndex = this.pathList.indexOf(newVal)
+        if (this.isActive) {
+          if (!this.drawerItem.list) {
+            this.$store.commit('setTitle',this.drawerItem.title)
+          }
+        }
       }
     },
-    methods:{
-      changeActive(){
-        this.$emit('changeActive',this.index,!this.isActive)
+    data: function () {
+      return {
+        activeIndex: -1,
+        isActive: false,
+        pathList: []
+      }
+    },
+    methods: {
+      changeActive() {
+        if (!this.drawerItem.list) {
+          this.$router.push(`/mainWindow${this.drawerItem.href}`)
+        } else {
+          this.isActive = true
+        }
+      },
+      changeActiveItem(index) {
+        this.activeIndex = index
+        this.$router.push(`/mainWindow${this.drawerItem.list[index].href}`)
+        this.$store.commit('setTitle',this.drawerItem.list[index].title)
       }
     }
   }
@@ -69,7 +102,6 @@
 <style scoped>
   .item-list {
     width: 100%;
-
     -webkit-transition: all 0.5s ease-in;
     -moz-transition: all 0.5s ease-in;
     -ms-transition: all 0.5s ease-in;
@@ -93,6 +125,7 @@
 
   .item-active {
     background: #4E5894;
+    border-left: #33CBFF 3px solid;
   }
 
   .arrow-active {

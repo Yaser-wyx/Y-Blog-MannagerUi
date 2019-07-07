@@ -8,7 +8,6 @@
         <v-avatar
           size="70"
           color="grey lighten-4"
-          slot="activator"
         >
           <img :src="user.avatar">
         </v-avatar>

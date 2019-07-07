@@ -2,6 +2,7 @@
   <div>
     <v-btn @click="logout">退出</v-btn>
     <v-btn @click="login">登录</v-btn>
+    <nuxt-child></nuxt-child>
   </div>
 </template>
 
@@ -15,7 +16,7 @@
       drawer
     },
     methods: {
-      login(){
+      login() {
         this.$store.commit('login', {})
       },
       logout() {

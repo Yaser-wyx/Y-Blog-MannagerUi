@@ -1,8 +1,7 @@
 <template>
   <div class="draw-wrap">
 
-    <drawerItemList v-for="(item,index) in drawerList" :drawer-item="item" :isActive="activeIndex===index"
-                    :index="index" @changeActive="changeActive" :key="index"></drawerItemList>
+    <drawerItemList v-for="(item,index) in drawerList" :drawer-item="item" :index="index" :key="index"></drawerItemList>
   </div>
 </template>
 
@@ -14,14 +13,12 @@
     components: {
       drawerItemList
     },
-
     data: function () {
       return {
-        activeIndex: -1,
         drawerList: [
           {
             title: "网站统计",
-            href: "/web-statistics",
+            href: "",
             icon: "blog-et-sales-statistics"
           },
           {
@@ -49,7 +46,7 @@
           },
           {
             title: "关于管理",
-            href: "/about-statistics",
+            href: "/about-manager",
             icon: "blog-user1"
           },
           {
@@ -65,15 +62,7 @@
         ]
       }
     },
-    methods: {
-      changeActive(index, isActive) {
-        if (isActive) {
-          this.activeIndex = index
-        } else {
-          this.activeIndex = -1
-        }
-      }
-    }
+    methods: {}
   }
 </script>
 
