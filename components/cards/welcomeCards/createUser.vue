@@ -61,7 +61,7 @@
 </template>
 
 <script>
-  import avatarCrop from "../utils/avatarCrop";
+  import avatarCrop from "../../utils/avatarCrop";
   import {Cards} from "./index";
 
   let _ = require("lodash");

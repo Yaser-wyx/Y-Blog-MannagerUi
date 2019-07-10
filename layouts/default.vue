@@ -8,7 +8,7 @@
         </div>
       </transition>
       <div class="my-inline-block content" :style="$store.state.isLogin?'width: calc(100% - 205px);':''">
-        <nuxt/>
+        <nuxt class="nuxt-wrap"/>
       </div>
       <div class="blue-back" v-if="$store.state.isLogin"></div>
     </div>
@@ -29,6 +29,14 @@
     padding-left: 20px;
   }
 
+  .nuxt-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
   .drawer {
     width: 200px;
     height: 100%;
@@ -41,6 +49,11 @@
     height: 100%;
     position: relative;
     z-index: 1;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
   }
 
   .main {

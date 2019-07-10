@@ -70,7 +70,7 @@
         this.activeIndex = this.pathList.indexOf(newVal)
         if (this.isActive) {
           if (!this.drawerItem.list) {
-            this.$store.commit('setTitle',this.drawerItem.title)
+            this.$store.commit('setTitle', this.drawerItem.title)
           }
         }
       }
@@ -87,13 +87,17 @@
         if (!this.drawerItem.list) {
           this.$router.push(`/mainWindow${this.drawerItem.href}`)
         } else {
-          this.isActive = true
+          if (this.activeIndex === -1) {
+            this.isActive = !this.isActive
+          } else {
+            this.isActive = true
+          }
         }
       },
       changeActiveItem(index) {
         this.activeIndex = index
         this.$router.push(`/mainWindow${this.drawerItem.list[index].href}`)
-        this.$store.commit('setTitle',this.drawerItem.list[index].title)
+        this.$store.commit('setTitle', this.drawerItem.list[index].title)
       }
     }
   }
@@ -107,7 +111,7 @@
     -ms-transition: all 0.5s ease-in;
     -o-transition: all 0.5s ease-in;
     transition: all 0.5s ease-in;
-    cursor: pointer;
+    cursor: default;
     overflow: hidden;
   }
 

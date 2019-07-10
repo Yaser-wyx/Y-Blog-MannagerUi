@@ -25,7 +25,7 @@ export default {
       },
       {
         rel: 'stylesheet',
-        href: 'https://at.alicdn.com/t/font_1211765_xvpj673ujhf.css'
+        href: 'https://at.alicdn.com/t/font_1211765_ptr7zllngfj.css'
       }
     ]
   },
@@ -44,6 +44,7 @@ export default {
     '~/assets/style/app.styl',
     '~/assets/style/global.css',
     "~/assets/style/font.css",
+    '~/assets/style/animation.css'
   ],
   /*
   ** Plugins to load before mounting the App

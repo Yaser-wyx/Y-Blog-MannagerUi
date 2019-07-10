@@ -1,6 +1,6 @@
-import {myAxios} from "../../api/axios";
-import {ServerApi} from "../../api/serverApi";
-import {ApiNames} from "../../api/apiNames";
+import {myAxios} from "../../../api/axios";
+import {ServerApi} from "../../../api/serverApi";
+import {ApiNames} from "../../../api/apiNames";
 
 let _ = require('lodash');
 let _this;

@@ -17,8 +17,8 @@
   import {addItemToConfig, init, loadApis, testConnection, writeServerConfig} from "./index";
   import {Cards} from "./index";
   import selectUser from "./selectUser";
-  import {delayExec} from "../../utils";
-  import {FAILURE} from "../../utils/Constant";
+  import {delayExec} from "../../../utils";
+  import {FAILURE} from "../../../utils/Constant";
 
   let _ = require('lodash')
   export default {

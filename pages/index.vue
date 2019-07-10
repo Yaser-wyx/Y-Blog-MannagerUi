@@ -9,7 +9,7 @@
 </template>
 <script>
 
-  import indexCard from "../components/cards/indexCard";
+  import indexCard from "../components/cards/welcomeCards/indexCard";
 
   export default {
     name: "index",

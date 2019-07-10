@@ -1,33 +1,28 @@
 <template>
   <div>
-    <v-btn @click="logout">退出</v-btn>
-    <v-btn @click="login">登录</v-btn>
-    <nuxt-child></nuxt-child>
+    <div class="content-box">
+      <nuxt-child></nuxt-child>
+    </div>
   </div>
 </template>
 
 <script>
-  import {addItemToConfig} from "../components/cards";
-  import drawer from "../components/layout/drawer/drawer";
 
   export default {
     name: "mainWindow",
-    components: {
-      drawer
-    },
-    methods: {
-      login() {
-        this.$store.commit('login', {})
-      },
-      logout() {
-        this.$store.commit('logout')
-        addItemToConfig('auto', false)
-        this.$router.push('/')
-      }
-    }
+    methods: {}
   }
 </script>
 
 <style scoped>
-
+  .content-box {
+    width:calc(100% - 50px);
+    height: calc(100% - 50px);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    background-color: white;
+    border-radius: 15px;
+    padding: 5px;
+  }
 </style>
