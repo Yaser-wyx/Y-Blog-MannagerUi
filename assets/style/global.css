@@ -30,3 +30,11 @@
   text-align: center;
   position: relative;
 }
+
+.my-hr {
+  width: 80%;
+  border: unset;
+  background-color: #D8DBDD !important;
+  height: 1px;
+  margin: 2px auto;
+}

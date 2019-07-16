@@ -226,9 +226,9 @@
   }
 
   .card-storage-info {
-    width: calc(100% - 80px);
-    height: calc(100% - 120px);
-    margin: 40px;
+    width: calc(100% - 40px);
+    height: calc(100% - 80px);
+    margin: 20px;
     padding: 5px;
   }
 </style>
